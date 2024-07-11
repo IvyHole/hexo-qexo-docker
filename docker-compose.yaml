@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    hexo-qexo:
+        image: hexo-qexo:latest
+        restart: always
+        volumes:
+            - '/path/to/blog:/blog'
+        ports:
+            - '3000:3000'
+            - '8000:8000'
