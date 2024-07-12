@@ -16,7 +16,8 @@ COPY ./requirements-mysql.txt .
 COPY ./requirements.txt .
 
 # 下载qexo
-RUN git clone -b dev https://github.com/Qexo/Qexo.git ./ \
+RUN git clone -b dev https://github.com/Qexo/Qexo.git ./qexo \
+    && \cp -a -f ./qexo/* ./ \
     && \cp -a -f requirements.txt requirements-mysql.txt \
     && \cp -a -f requirements_withoutmysql.txt requirements.txt
 
