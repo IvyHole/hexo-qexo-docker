@@ -31,6 +31,9 @@ RUN apt-get update -y && \
     apt-get update -y && \
     apt-get install -y caddy dumb-init
 
+RUN curl -Ljo pandoc.deb https://github.com/jgm/pandoc/releases/download/3.2.1/pandoc-3.2.1-1-amd64.deb \
+    apt-get install -y ./pandoc.deb
+
 # pip
 RUN python -m pip install --upgrade pip
 RUN if [[ $mysql == "false" ]];then \
@@ -41,7 +44,8 @@ RUN if [[ $mysql == "false" ]];then \
 # npm
 RUN npm install -g hexo-cli hexo-renderer-pug \
     hexo-renderer-stylus hexo-deployer-git \
-    hexo-abbrlink
+    hexo-abbrlink hexo-generator-search hexo-renderer-pandoc\
+    hexo-filter-mathjax
 
 EXPOSE 3000 8000
 CMD ["/usr/bin/dumb-init", "--", "bash", "/app/start.sh"]
