@@ -6,7 +6,7 @@ ARG node_version=22.4.1
 ARG mysql=false
 
 # 安装node 22.4.1
-RUN curl -o node.tar.gz https://nodejs.org/dist/v$node_version/node-$node_version-linux-x64.tar.gz \
+RUN curl -o node.tar.gz https://nodejs.org/dist/latest-v22.x/node-v22.4.1-linux-x64.tar.gz \
     && tar -zxvf node.tar.gz -C /usr/local --strip-components=1 \
     && rm -rf node.tar.gz
 
