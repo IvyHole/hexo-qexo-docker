@@ -13,13 +13,13 @@ RUN curl -o node.tar.gz https://nodejs.org/dist/latest-v22.x/node-v22.4.1-linux-
 ENV PATH="/usr/local/bin:${PATH}"
 
 COPY ./requirements-mysql.txt .
-COPY ./requirements.txt .
+COPY ./requirements-nomysql.txt .
 
 # 下载qexo
 RUN git clone -b dev https://github.com/Qexo/Qexo.git ./qexo \
     && \cp -a -f ./qexo/* ./ \
     && \cp -a -f requirements.txt requirements-mysql.txt \
-    && \cp -a -f requirements_withoutmysql.txt requirements.txt
+    && \cp -a -f requirements_withoutmysql.txt requirements-nomysql.txt
 
 RUN sed -i "s/qexo_data.db/\/db\/qexo_data.db/g" core/settings.py && \
     mkdir /db && \
@@ -37,10 +37,11 @@ RUN curl -Ljo pandoc.deb https://github.com/jgm/pandoc/releases/download/3.2.1/p
 
 # pip
 RUN python -m pip install --upgrade pip
-RUN if [[ $mysql == "false" ]];then \
-    pip install -r requirements.txt; \
+RUN if [[ "$mysql" == "false" ]];then \
+    pip install -r requirements-nomysql.txt; \
     else \
-    pip install -r requirements-mysql.txt;
+    pip install -r requirements-mysql.txt; \
+    fi
 
 # npm
 RUN npm install -g hexo-cli hexo-renderer-pug \
